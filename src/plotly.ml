@@ -26,6 +26,10 @@ module Data = struct
     let zs = Array.map (fun (_,_,z) -> z) xyzs in
     x xs @ y ys @ z zs
 
+  let marker (marker_attrs : Marker.t) : t =
+    let marker_obj = Attributes.to_json (marker_attrs :> Attribute.t list) in
+    ["marker", Value.Value (Value.object_ marker_obj)]
+
   let data ds = ds
 
   let to_json = Attributes.to_json

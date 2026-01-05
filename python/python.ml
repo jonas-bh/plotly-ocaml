@@ -7,6 +7,19 @@ let rec of_value v =
   | Value (String, s) -> Py.String.of_string s
   | Value (Array ty, vs) ->
       Py.List.of_array @@ Array.map (fun v -> of_value (Value (ty, v))) vs
+  | Value (Object, obj) -> of_json_value (obj : Ezjsonm.value)
+
+and of_json_value (j : Ezjsonm.value) : Py.Object.t =
+  match (j : Ezjsonm.value) with
+  | `String s -> Py.String.of_string s
+  | `Float f -> Py.Float.of_float f
+  | `Bool b -> Py.Bool.of_bool b
+  | `Null -> Py.none
+  | `A vs -> Py.List.of_list_map of_json_value vs
+  | `O kvs ->
+      let py_dict = Py.Dict.create () in
+      List.iter (fun (k, v) -> Py.Dict.set_item_string py_dict k (of_json_value v)) kvs;
+      py_dict
 
 let of_attribute (s, v : Attribute.t) = (s, of_value v)
 

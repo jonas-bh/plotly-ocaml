@@ -5,6 +5,7 @@ module Type = struct
     | Float : float t
     | String : string t
     | Array : 'a t -> 'a array t
+    | Object : Ezjsonm.value t
 
   type type_ = Type : 'a t -> type_
 
@@ -12,6 +13,7 @@ module Type = struct
     match a, b with
     | Float, Float -> Some Eq
     | String, String -> Some Eq
+    | Object, Object -> Some Eq
     | Array a, Array b ->
         (match eq a b with
          | Some Eq -> Some Eq
@@ -28,11 +30,13 @@ module Value = struct
   let float f : float t = Type.Float, f
   let string s : string t = Type.String, s
   let array ty vs : 'a array t = Type.Array ty, vs
+  let object_ obj : Ezjsonm.value t = Type.Object, obj
 
   let rec to_json v : Ezjsonm.value =
     match v with
     | Value (Type.Float, f) -> `Float f
     | Value (String, s) -> `String s
+    | Value (Object, obj) -> obj
     | Value (Array ty, xs) -> `A (List.map (fun x -> to_json (Value (ty, x))) @@ Array.to_list xs)
 
   let rec of_json v =
@@ -40,6 +44,7 @@ module Value = struct
     match v with
     | `Float f -> Some (Value (float f))
     | `String s -> Some (Value (string s))
+    | `O _ as obj -> Some (Value (object_ obj))
     | `A vs ->
         let* vs = mapM of_json vs in
         (match vs with
@@ -81,4 +86,18 @@ module Attributes = struct
             let+ res = Value.of_json v in
             (k, res)) kvs
     | _ -> None
+end
+
+module Marker = struct
+  open Attributes
+
+  type t = Attribute.t list
+
+  let color c = string "color" c
+  let colors cs = array "color" Type.String cs
+
+  let marker ats = ats
+
+  let to_json = Attributes.to_json
+  let of_json = Attributes.of_json
 end
