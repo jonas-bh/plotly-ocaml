@@ -102,7 +102,7 @@ module Marker = struct
   let color c = string "color" c
   let colors cs = array "color" Type.String cs
 
-  let marker ats = ats
+  let marker ats = List.concat ats
 
   let to_json = Attributes.to_json
   let of_json = Attributes.of_json

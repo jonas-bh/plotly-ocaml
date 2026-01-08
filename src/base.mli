@@ -42,11 +42,11 @@ end
 module Marker : sig
   type t = private Attribute.t list
 
-  val color : string -> t
+  val color : string -> Attribute.t list
 
-  val colors : string array -> t
+  val colors : string array -> Attribute.t list
 
-  val marker : Attribute.t list -> t
+  val marker : Attribute.t list list -> t
 
   val to_json : t -> Ezjsonm.value
   val of_json : Ezjsonm.value -> t option

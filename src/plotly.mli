@@ -47,7 +47,7 @@ module Marker : sig
     The color may be specified by its color name (e.g., ["LightBlue"]), hex code (e.g., ["#ADD8E6"]), or RGB(A) string (e.g., ["rgba(173, 216, 230, 1)"]). 
     The latter allows for specifying transparency.
   *)
-  val color : string -> t
+  val color : string -> Attribute.t list
 
   (** 
     Set the colors for each of the data points, such that each color corresponds to a data point. 
@@ -55,8 +55,8 @@ module Marker : sig
     The colors may be specified by their color name (e.g., ["LightBlue"]), hex codes (e.g., ["#ADD8E6"]), or RGB(A) strings (e.g., ["rgba(173, 216, 230, 1)"]). 
     The latter allows for specifying transparency.
   *)
-  val colors : string array -> t
-  val marker : Attribute.t list -> t
+  val colors : string array -> Attribute.t list
+  val marker : Attribute.t list list -> t
 
   val to_json : t -> Ezjsonm.value
   val of_json : Ezjsonm.value -> t option
@@ -83,8 +83,7 @@ module Data : sig
   (* The argument is splitted to build attributes [x], [y], and [z] *)
   val xyz : (float * float * float) array -> t
 
-  (* Attach marker configuration to the trace *)
-  val marker : Marker.t -> t
+  val marker : Attribute.t list list -> t
 
   (* Build custom data attributes *)
   val data : Attribute.t list -> t
