@@ -15,6 +15,7 @@ module Data = struct
   let x = array "x" Type.Float
   let y = array "y" Type.Float
   let z = array "z" Type.Float
+  let showlegend = bool "showlegend"
 
   let xy xys =
     let xs = Array.map fst xys in
@@ -40,6 +41,7 @@ module Layout = struct
 
   let title = string "title"
   let barmode = string "barmode"
+  let showlegend = bool "showlegend"
 
   let layout ats = ats
 

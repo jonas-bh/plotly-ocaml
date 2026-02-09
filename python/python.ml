@@ -5,6 +5,7 @@ let rec of_value v =
   match v with
   | Value (Float, f) -> Py.Float.of_float f
   | Value (String, s) -> Py.String.of_string s
+  | Value (Bool, b) -> Py.Bool.of_bool b
   | Value (Array ty, vs) ->
       Py.List.of_array @@ Array.map (fun v -> of_value (Value (ty, v))) vs
 
