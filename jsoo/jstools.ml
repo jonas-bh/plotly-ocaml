@@ -11,7 +11,7 @@ let (!$) = Js.string
 let (?$) = Js.to_string
 
 module Console = struct
-  let log a = Js_of_ocaml.Firebug.console##log a
+  let log a = Js_of_ocaml.Console.console##log a
   let logf fmt = Format.kasprintf (fun s -> log !$s) fmt
 end
 
