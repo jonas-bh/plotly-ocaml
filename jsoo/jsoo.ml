@@ -9,6 +9,7 @@ let rec conv_value v =
   match v with
   | Value (Float, f) -> Js.Unsafe.inject f
   | Value (String, s) -> Js.Unsafe.inject @@ Js.string s
+  | Value (Bool, b) -> Js.Unsafe.inject b
   | Value (Array ty, vs) ->
       let vs = Array.map (fun v -> conv_value (Value (ty, v))) vs in
       Js.Unsafe.inject @@ Js.array vs

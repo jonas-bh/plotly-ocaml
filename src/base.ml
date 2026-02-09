@@ -4,6 +4,7 @@ module Type = struct
   type 'a t =
     | Float : float t
     | String : string t
+    | Bool : bool t
     | Array : 'a t -> 'a array t
 
   type type_ = Type : 'a t -> type_
@@ -12,6 +13,7 @@ module Type = struct
     match a, b with
     | Float, Float -> Some Eq
     | String, String -> Some Eq
+    | Bool, Bool -> Some Eq
     | Array a, Array b ->
         (match eq a b with
          | Some Eq -> Some Eq
@@ -27,12 +29,14 @@ module Value = struct
 
   let float f : float t = Type.Float, f
   let string s : string t = Type.String, s
+  let bool b : bool t = Type.Bool, b
   let array ty vs : 'a array t = Type.Array ty, vs
 
   let rec to_json v : Ezjsonm.value =
     match v with
     | Value (Type.Float, f) -> `Float f
     | Value (String, s) -> `String s
+    | Value (Bool, b) -> `Bool b
     | Value (Array ty, xs) -> `A (List.map (fun x -> to_json (Value (ty, x))) @@ Array.to_list xs)
 
   let rec of_json v =
@@ -40,6 +44,7 @@ module Value = struct
     match v with
     | `Float f -> Some (Value (float f))
     | `String s -> Some (Value (string s))
+    | `Bool b -> Some (Value (bool b))
     | `A vs ->
         let* vs = mapM of_json vs in
         (match vs with
@@ -68,6 +73,7 @@ module Attributes = struct
   open Value
   let float n f = [n, Value (Value.float f)]
   let string n s = [n, Value (Value.string s)]
+  let bool n b = [n, Value (Value.bool b)]
   let array n ty vs = [n, Value (Value.array ty vs)]
 
   let to_json xs =
