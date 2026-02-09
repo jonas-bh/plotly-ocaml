@@ -48,6 +48,7 @@ module Data : sig
   val x : float array -> t
   val y : float array -> t
   val z : float array -> t
+  val showlegend : bool -> t
 
   (* The argument is splitted to build attributes [x] and [y] *)
   val xy : (float * float) array -> t
