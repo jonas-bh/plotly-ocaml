@@ -7,6 +7,7 @@ module Data = struct
 
   let mode   = string "mode"
   let name   = string "name"
+  let legendgroup = string "legendgroup"
   let labels = array "labels" Type.String
   let values = array "values" Type.Float
   let text   = array "text" Type.String
