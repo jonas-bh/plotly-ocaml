@@ -38,6 +38,7 @@ module Data : sig
 
   val mode : string -> t
   val name : string -> t
+  val legendgroup : string -> t
   val labels : string array -> t
   val values : float array -> t
   val text : string array -> t
