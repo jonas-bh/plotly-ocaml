@@ -2,6 +2,7 @@ module Type : sig
   type 'a t =
     | Float : float t
     | String : string t
+    | Bool : bool t
     | Array : 'a t -> 'a array t
 
   type type_ = Type : _ t -> type_
@@ -12,6 +13,7 @@ module Value : sig
   type value = Value : 'a t -> value
   val float : float -> float t
   val string : string -> string t
+  val bool : bool -> bool t
   val array : 'a Type.t -> 'a array -> 'a array t
 
   val to_json : value -> Ezjsonm.value
@@ -27,6 +29,7 @@ module Attributes : sig
 
   val float : string -> float -> Attribute.t list
   val string : string -> string -> Attribute.t list
+  val bool : string -> bool -> Attribute.t list
   val array : string -> 'a Type.t -> 'a array -> Attribute.t list
 
   val to_json : t -> Ezjsonm.value
@@ -64,6 +67,7 @@ module Layout : sig
 
   val title : string -> t
   val barmode : string -> t
+  val showlegend : bool -> t
 
   (* Build custom layout attributes *)
   val layout : Attribute.t list -> t

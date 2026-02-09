@@ -39,6 +39,7 @@ module Layout = struct
 
   let title = string "title"
   let barmode = string "barmode"
+  let showlegend = bool "showlegend"
 
   let layout ats = ats
 
