@@ -27,7 +27,9 @@ end
 
 module Value = struct
   type 'a t = 'a Type.t * 'a
-  type value = Value : 'a t -> value
+  type value = 
+    | Value : 'a t -> value
+    | Object : (string * value) list -> value
 
   let float f : float t = Type.Float, f
   let string s : string t = Type.String, s
@@ -42,6 +44,7 @@ module Value = struct
     | Value (Bool, b) -> `Bool b
     | Value (Object, obj) -> obj
     | Value (Array ty, xs) -> `A (List.map (fun x -> to_json (Value (ty, x))) @@ Array.to_list xs)
+    | Object kvs -> `O (List.map (fun (k, v) -> k, to_json v) kvs)
 
   let rec of_json v =
     let open Option in
@@ -55,16 +58,20 @@ module Value = struct
         (match vs with
         | [] -> None
         | v::vs ->
-            let Value (ty, _) = v in
-            let rec check acc = function
-              | [] -> Some (Value (Type.Array ty, Array.of_list @@ List.rev acc))
-              | v'::vs ->
-                  let Value (ty', v') = v' in
-                  match Type.eq ty ty' with
-                  | Some Eq -> check (v'::acc) vs
-                  | None -> None
-            in
-            check [] (v::vs))
+            (match v with
+            | Value (ty, _) ->
+                let rec check acc = function
+                  | [] -> Some (Value (Type.Array ty, Array.of_list @@ List.rev acc))
+                  | v'::vs ->
+                      (match v' with
+                      | Value (ty', v') ->
+                          (match Type.eq ty ty' with
+                          | Some Eq -> check (v'::acc) vs
+                          | None -> None)
+                      | Object _ -> None)
+                in
+                check [] (v::vs)
+            | Object _ -> None))
     | _ -> None
 end
 

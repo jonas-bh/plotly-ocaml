@@ -11,7 +11,9 @@ end
 
 module Value : sig
   type 'a t = 'a Type.t * 'a
-  type value = Value : 'a t -> value
+  type value = 
+    | Value : 'a t -> value
+    | Object : (string * value) list -> value
 
   val float : float -> float t
   val string : string -> string t

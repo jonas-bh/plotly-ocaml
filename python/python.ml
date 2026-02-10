@@ -8,6 +8,10 @@ let rec of_value v =
   | Value (Bool, b) -> Py.Bool.of_bool b
   | Value (Array ty, vs) ->
       Py.List.of_array @@ Array.map (fun v -> of_value (Value (ty, v))) vs
+  | Object kvs ->
+    let d = Py.Dict.create () in
+    List.iter (fun (k, v) -> Py.Dict.set_item d (Py.String.of_string k) (of_value v)) kvs;
+    d
   | Value (Object, obj) -> of_json_value (obj : Ezjsonm.value)
 
 and of_json_value (j : Ezjsonm.value) : Py.Object.t =

@@ -11,7 +11,10 @@ end
 
 module Value : sig
   type 'a t = 'a Type.t * 'a
-  type value = Value : 'a t -> value
+  type value = 
+    | Value : 'a t -> value
+    | Object : (string * value) list -> value
+
   val float : float -> float t
   val string : string -> string t
   val bool : bool -> bool t
@@ -98,6 +101,36 @@ module Layout : sig
   val title : string -> t
   val barmode : string -> t
   val showlegend : bool -> t
+
+  (** Axis configuration module for x-, y-, and z-axes *)
+  module Axis : sig
+    (** Set axis title *)
+    val axis_title : string -> string * Base.Value.value
+
+    (** Set axis type (e.g., "linear", "log") *)
+    val axis_type : string -> string * Base.Value.value
+
+    (** Set axis range as (min, max) *)
+    val axis_range : float -> float -> string * Base.Value.value
+
+    (** Toggle grid display *)
+    val axis_showgrid : bool -> string * Base.Value.value
+
+    (** Toggle zero line display *)
+    val axis_zeroline : bool -> string * Base.Value.value
+
+    (** Set tick label format *)
+    val axis_tickformat : string -> string * Base.Value.value
+  end
+
+  (** Configure the x-axis from a list of axis properties *)
+  val xaxis : (string * Base.Value.value) list -> t
+
+  (** Configure the y-axis from a list of axis properties *)
+  val yaxis : (string * Base.Value.value) list -> t
+
+  (** Configure the z-axis from a list of axis properties *)
+  val zaxis : (string * Base.Value.value) list -> t
 
   (* Build custom layout attributes *)
   val layout : Attribute.t list -> t

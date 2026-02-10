@@ -47,6 +47,18 @@ module Layout = struct
   let title = string "title"
   let barmode = string "barmode"
   let showlegend = bool "showlegend"
+  module Axis = struct
+    let axis_title s = ("title", Base.Value.Value (Base.Value.string s))
+    let axis_type s = ("type", Base.Value.Value (Base.Value.string s))
+    let axis_range low high = ("range", Base.Value.Value (Base.Value.array Base.Type.Float [|low; high|]))
+    let axis_showgrid b = ("showgrid", Base.Value.Value (Base.Value.bool b))
+    let axis_zeroline b = ("zeroline", Base.Value.Value (Base.Value.bool b))
+    let axis_tickformat s = ("tickformat", Base.Value.Value (Base.Value.string s))
+  end
+
+  let xaxis ax = [("xaxis", Base.Value.Object ax)]
+  let yaxis ay = [("yaxis", Base.Value.Object ay)]
+  let zaxis az = [("zaxis", Base.Value.Object az)]
 
   let layout ats = ats
 
