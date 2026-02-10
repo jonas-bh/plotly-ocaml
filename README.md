@@ -15,6 +15,20 @@ JSOO version
 Plotly-ocaml only covers small subset of Plotly features, but it is easy
 to add new graphs, data and layout attributes. Your contributions are welcome.
 
+## Testing
+
+The library includes a comprehensive regression testing system with both JSON (for JSOO backend) and visual (for Python backend) tests.
+
+To run all regression tests (JSON + visual):
+```bash
+dune test
+```
+
+and to update reference files (after intentional changes):
+```bash
+dune exec test/generate_references.exe
+```
+
 ## Type safety
 
 There is no type dicipline to check your misuses of attributes, for example
