@@ -1,0 +1,46 @@
+{
+  "data": [
+    {
+      "type": "scatter",
+      "x": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "y": [
+        1,
+        2,
+        4,
+        8,
+        16
+      ],
+      "name": "Visible in Legend",
+      "mode": "lines+markers"
+    },
+    {
+      "type": "scatter",
+      "x": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "y": [
+        2,
+        1,
+        3,
+        7,
+        11
+      ],
+      "mode": "markers",
+      "name": "Hidden from Legend",
+      "showlegend": false
+    }
+  ],
+  "layout": {
+    "title": "Hiding Legend for Single Trace"
+  }
+}

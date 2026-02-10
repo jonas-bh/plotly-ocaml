@@ -1,0 +1,36 @@
+{
+  "data": [
+    {
+      "type": "scatter",
+      "x": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "y": [
+        1,
+        4,
+        9,
+        16,
+        25
+      ],
+      "mode": "lines+markers"
+    }
+  ],
+  "layout": {
+    "title": "Data with Custom Axis Labels",
+    "xaxis": {
+      "title": "Time (seconds)",
+      "type": "linear"
+    },
+    "yaxis": {
+      "title": "Distance (meters)",
+      "range": [
+        0,
+        30
+      ]
+    }
+  }
+}
