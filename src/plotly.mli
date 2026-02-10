@@ -11,7 +11,10 @@ end
 
 module Value : sig
   type 'a t = 'a Type.t * 'a
-  type value = Value : 'a t -> value
+  type value = 
+    | Value : 'a t -> value
+    | Object : (string * value) list -> value
+
   val float : float -> float t
   val string : string -> string t
   val bool : bool -> bool t
@@ -99,7 +102,43 @@ module Layout : sig
   val barmode : string -> t
   val showlegend : bool -> t
 
-  (* Build custom layout attributes *)
+  module Axis : sig
+    (** Set axis title *)
+    val axis_title : string -> string * Base.Value.value
+
+    (** 
+      Set axis type (e.g. ["linear"] or ["log"]) 
+      
+      See https://plotly.com/python/axes/ for more details.
+    *)
+    val axis_type : string -> string * Base.Value.value
+
+    (** Set axis data range as (min, max) *)
+    val axis_range : float -> float -> string * Base.Value.value
+
+    (** Toggle grid display *)
+    val axis_showgrid : bool -> string * Base.Value.value
+
+    (** Toggle zero line display *)
+    val axis_zeroline : bool -> string * Base.Value.value
+
+    (** 
+      Set tick label format
+    
+      See https://plotly.com/python/tick-formatting/ for more details.
+    *)
+    val axis_tickformat : string -> string * Base.Value.value
+  end
+
+  (** Set the x-axis properties *)
+  val xaxis : (string * Base.Value.value) list -> t
+
+  (** Set the y-axis properties *)
+  val yaxis : (string * Base.Value.value) list -> t
+
+  (** Set the z-axis properties *)
+  val zaxis : (string * Base.Value.value) list -> t
+
   val layout : Attribute.t list -> t
 
   val to_json : t -> Ezjsonm.value

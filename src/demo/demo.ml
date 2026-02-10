@@ -3,6 +3,8 @@ open Data
 open Graph
 open Figure
 open Layout
+open Axis
+
 
 let scatter_ =
   figure
@@ -109,6 +111,17 @@ let histogram_ =
     [ histogram [ x (Array.init 500 (fun _ -> Random.float 1.0)) ] ]
     [ title "Histogram" ]
 
+let scatter_with_axes =
+  let x_data = [| 1.0; 2.0; 3.0; 4.0; 5.0 |] in
+  let y_data = [| 1.0; 4.0; 9.0; 16.0; 25.0 |] in
+  figure
+    [ scatter [ x x_data; y y_data; mode "lines+markers" ] ]
+    [
+      title "Data with Custom Axis Labels";
+      xaxis [axis_title "Time (seconds)"; axis_type "linear"];
+      yaxis [axis_title "Distance (meters)"; axis_range 0. 30.];
+    ]
+
 let figures =
   [ scatter_;
     scatter_markers;
@@ -121,4 +134,5 @@ let figures =
     bar_stack_horizontal;
     pie_;
     histogram_;
+    scatter_with_axes;
   ]

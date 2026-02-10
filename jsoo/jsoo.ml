@@ -13,8 +13,10 @@ let rec conv_value v =
   | Value (Array ty, vs) ->
       let vs = Array.map (fun v -> conv_value (Value (ty, v))) vs in
       Js.Unsafe.inject @@ Js.array vs
+  | Object kvs ->
+      let obj = Js.Unsafe.obj (Array.of_list @@ List.map (fun (k, v) -> (k, conv_value v)) kvs) in
+      Js.Unsafe.inject obj
   | Value (Object, obj) -> of_json_value (obj : Ezjsonm.value)
-
 and of_json_value (j : Ezjsonm.value) : _ Js.t =
   match (j : Ezjsonm.value) with
   | `String s -> Js.Unsafe.inject @@ Js.string s
