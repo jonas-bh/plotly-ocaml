@@ -34,3 +34,19 @@ jobs:
     
     - name: Run tests
       run: eval $(opam env) && dune runtest
+    
+    - name: Upload generated images
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: generated-images
+        path: test/references/images/current/
+        retention-days: 5
+    
+    - name: Upload diff images
+      if: failure()
+      uses: actions/upload-artifact@v4
+      with:
+        name: diff-images
+        path: test/references/images/diff/
+        retention-days: 5
