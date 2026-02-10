@@ -1,0 +1,23 @@
+name: Build
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up OCaml
+      uses: ocaml/setup-ocaml@v3
+      with:
+        ocaml-compiler: 5.0.x
+    
+    - name: Install dependencies
+      run: opam install . --deps-only
+    
+    - name: Build
+      run: eval $(opam env) && dune build
