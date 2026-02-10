@@ -44,6 +44,7 @@ let of_graph Graph.{type_; data} =
     | "scatter3d" -> "Scatter3d"
     | "bar" -> "Bar"
     | "pie" -> "Pie"
+    | "histogram" -> "Histogram"
     | _ -> assert false
   in
   Py.Module.get_function_with_keywords go c [||]
