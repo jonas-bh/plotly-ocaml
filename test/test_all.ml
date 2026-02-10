@@ -198,16 +198,6 @@ let run_tests () =
     if json_passed = total && visual_passed = total then begin
       Printf.printf "\n✓ All tests passed!\n";
       
-      (* Clean up temp images *)
-      let temp_paths = [
-        "test/references/images/current";
-        "references/images/current"
-      ] in
-      List.iter (fun path ->
-        if Sys.file_exists path then
-          ignore (Sys.command (Printf.sprintf "rm -rf %s" (Filename.quote path)))
-      ) temp_paths;
-      
       exit 0
     end else begin
       Printf.printf "\n✗ Some tests failed.\n";
