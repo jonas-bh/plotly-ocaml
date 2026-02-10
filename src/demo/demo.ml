@@ -122,6 +122,21 @@ let scatter_with_axes =
       yaxis [axis_title "Distance (meters)"; axis_range 0. 30.];
     ]
 
+let bar_hide_legend =
+  figure
+    [ bar
+        [ xy [| (1.0, 1.0); (2.0, 2.0); (3.0, 4.0); (4.0, 8.0); (5.0, 16.0) |];
+          name "Visible in Legend";
+        ];
+      bar
+        [ xy [| (1.0, 2.0); (2.0, 1.0); (3.0, 3.0); (4.0, 7.0); (5.0, 11.0) |];
+          name "Hidden from Legend";
+          (* Note: Use Data.showlegend, not just showlegend, to avoid collision
+             with Layout.showlegend *)
+          Data.showlegend false;
+        ] ]
+    [ title "Bar: Hiding Legend for Single Trace" ]
+
 let figures =
   [ scatter_;
     scatter_markers;
@@ -135,4 +150,5 @@ let figures =
     pie_;
     histogram_;
     scatter_with_axes;
+    bar_hide_legend;
   ]
