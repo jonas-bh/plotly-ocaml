@@ -7,9 +7,9 @@ module Html = Dom_html
 let rec conv_value v =
   let open Value in
   match v with
-  | Value (Float, f) -> Js.Unsafe.inject f
+  | Value (Float, f) -> Js.Unsafe.inject @@ Js.float f
   | Value (String, s) -> Js.Unsafe.inject @@ Js.string s
-  | Value (Bool, b) -> Js.Unsafe.inject b
+  | Value (Bool, b) -> Js.Unsafe.inject @@ Js.bool b
   | Value (Array ty, vs) ->
       let vs = Array.map (fun v -> conv_value (Value (ty, v))) vs in
       Js.Unsafe.inject @@ Js.array vs
@@ -20,8 +20,8 @@ let rec conv_value v =
 and of_json_value (j : Ezjsonm.value) : _ Js.t =
   match (j : Ezjsonm.value) with
   | `String s -> Js.Unsafe.inject @@ Js.string s
-  | `Float f -> Js.Unsafe.inject f
-  | `Bool b -> Js.Unsafe.inject b
+  | `Float f -> Js.Unsafe.inject @@ Js.float f
+  | `Bool b -> Js.Unsafe.inject @@ Js.bool b
   | `Null -> Js.Unsafe.inject Js.null
   | `A vs -> Js.Unsafe.inject @@ Js.array (Array.of_list (List.map of_json_value vs))
   | `O kvs ->
