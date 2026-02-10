@@ -28,7 +28,6 @@ and of_json_value (j : Ezjsonm.value) : _ Js.t =
       Js.Unsafe.obj @@ Array.of_list @@
       List.map (fun (k, v) -> (k, of_json_value v)) kvs
 
-
 let obj_of_attributes (xs : Attribute.t list) : _ Js.t =
   Js.Unsafe.obj @@
   Array.of_list @@

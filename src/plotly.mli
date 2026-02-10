@@ -102,15 +102,18 @@ module Layout : sig
   val barmode : string -> t
   val showlegend : bool -> t
 
-  (** Axis configuration module for x-, y-, and z-axes *)
   module Axis : sig
     (** Set axis title *)
     val axis_title : string -> string * Base.Value.value
 
-    (** Set axis type (e.g., "linear", "log") *)
+    (** 
+      Set axis type (e.g. ["linear"] or ["log"]) 
+      
+      See https://plotly.com/python/axes/ for more details.
+    *)
     val axis_type : string -> string * Base.Value.value
 
-    (** Set axis range as (min, max) *)
+    (** Set axis data range as (min, max) *)
     val axis_range : float -> float -> string * Base.Value.value
 
     (** Toggle grid display *)
@@ -119,20 +122,23 @@ module Layout : sig
     (** Toggle zero line display *)
     val axis_zeroline : bool -> string * Base.Value.value
 
-    (** Set tick label format *)
+    (** 
+      Set tick label format
+    
+      See https://plotly.com/python/tick-formatting/ for more details.
+    *)
     val axis_tickformat : string -> string * Base.Value.value
   end
 
-  (** Configure the x-axis from a list of axis properties *)
+  (** Set the x-axis properties *)
   val xaxis : (string * Base.Value.value) list -> t
 
-  (** Configure the y-axis from a list of axis properties *)
+  (** Set the y-axis properties *)
   val yaxis : (string * Base.Value.value) list -> t
 
-  (** Configure the z-axis from a list of axis properties *)
+  (** Set the z-axis properties *)
   val zaxis : (string * Base.Value.value) list -> t
 
-  (* Build custom layout attributes *)
   val layout : Attribute.t list -> t
 
   val to_json : t -> Ezjsonm.value
