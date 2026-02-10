@@ -16,6 +16,7 @@ depends: [
   "js_of_ocaml-ppx"
   "js_of_ocaml-lwt"
   "pyml"
+  "ezjsonm"
   "odoc" {with-doc}
 ]
 build: [
