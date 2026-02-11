@@ -56,9 +56,16 @@ module Layout = struct
     let axis_tickformat s = ("tickformat", Base.Value.Value (Base.Value.string s))
   end
 
+  module Font = struct
+    let font_family s = ("family", Base.Value.Value (Base.Value.string s))
+    let font_size sz = ("size", Base.Value.Value (Base.Value.float sz))
+    let font_color c = ("color", Base.Value.Value (Base.Value.string c))
+  end
+
   let xaxis ax = [("xaxis", Base.Value.Object ax)]
   let yaxis ay = [("yaxis", Base.Value.Object ay)]
   let zaxis az = [("zaxis", Base.Value.Object az)]
+  let font f = [("font", Base.Value.Object f)]
 
   let layout ats = ats
 

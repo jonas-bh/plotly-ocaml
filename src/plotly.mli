@@ -130,6 +130,15 @@ module Layout : sig
     val axis_tickformat : string -> string * Base.Value.value
   end
 
+  module Font : sig
+    (** HTML font family - the typeface that will be applied by the web browser. The web browser can only apply a font if it is available on the system where it runs. Provide multiple font families, separated by commas, to indicate the order in which to apply fonts if they aren't available. *)
+    val font_family : string -> string * Base.Value.value
+
+    val font_size : float -> string * Base.Value.value
+
+    val font_color : string -> string * Base.Value.value
+  end
+
   (** Set the x-axis properties *)
   val xaxis : (string * Base.Value.value) list -> t
 
@@ -138,6 +147,11 @@ module Layout : sig
 
   (** Set the z-axis properties *)
   val zaxis : (string * Base.Value.value) list -> t
+
+  (** Set the global font properties for the graph. 
+  
+  Note that fonts used in traces and other layout components inherit from the global font. *)
+  val font : (string * Base.Value.value) list -> t
 
   val layout : Attribute.t list -> t
 
