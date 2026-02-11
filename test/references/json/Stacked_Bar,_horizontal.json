@@ -53,6 +53,9 @@
   ],
   "layout": {
     "title": "Stacked Bar, horizontal",
+    "font": {
+      "family": "Ubuntu"
+    },
     "barmode": "stack"
   }
 }

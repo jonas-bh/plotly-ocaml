@@ -39,6 +39,9 @@
     }
   ],
   "layout": {
-    "title": "Scatter multi"
+    "title": "Scatter multi",
+    "font": {
+      "family": "Ubuntu"
+    }
   }
 }

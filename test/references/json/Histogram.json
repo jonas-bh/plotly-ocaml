@@ -57,6 +57,9 @@
     }
   ],
   "layout": {
-    "title": "Histogram"
+    "title": "Histogram",
+    "font": {
+      "family": "Ubuntu"
+    }
   }
 }
