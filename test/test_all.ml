@@ -103,7 +103,7 @@ let run_tests () =
   Printf.printf "PLOTLY-OCAML REGRESSION TEST SUITE\n";
   Printf.printf "========================================\n\n";
   
-  Printf.printf "JSON Tests (JSOO/Plotly.js):\n";
+  Printf.printf "JSOO/Plotly.js Backend Tests:\n";
   let json_results = List.map test_json_figure Demo.figures in
   
   Printf.printf "\nPython Backend Tests:\n";
@@ -122,8 +122,8 @@ let run_tests () =
   Printf.printf "\n========================================\n";
   Printf.printf "RESULTS\n";
   Printf.printf "========================================\n";
-  Printf.printf "JSON Tests:    %d/%d passed\n" json_passed total;
-  Printf.printf "Python Tests:  %d/%d passed\n" python_passed total;
+  Printf.printf "JSOO/Plotly.js Tests:    %d/%d passed\n" json_passed total;
+  Printf.printf "Python Tests:            %d/%d passed\n" python_passed total;
   
   if json_passed = total && python_passed = total then begin
     Printf.printf "\n✓ All tests passed!\n";
