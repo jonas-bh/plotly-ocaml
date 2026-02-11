@@ -14,12 +14,12 @@ let get_filename figure : string =
         | ' ' | '/' | '\\' | ':' -> '_'
         | c -> c
       ) title in
-      sanitized ^ ".json"
+      sanitized
   | None -> failwith "Figure must have a title for regression testing"
 
 (** Generate reference JSON files for all demo figures *)
 let generate_json_references () =
-  let ref_dir = "test/references/json" in
+  let ref_dir = "test/references/jsoo-json" in
   
   if not (Sys.file_exists ref_dir) then
     Unix.mkdir ref_dir 0o755;
@@ -28,7 +28,8 @@ let generate_json_references () =
   
   List.iter (fun figure ->
     let filename = get_filename figure in
-    let path = Filename.concat ref_dir filename in
+    let filename_json = filename ^ ".json" in
+    let path = Filename.concat ref_dir filename_json in
     
     let json = Figure.to_json figure in
     let json_str = Ezjsonm.value_to_string ~minify:false json in
@@ -38,39 +39,41 @@ let generate_json_references () =
     output_char oc '\n';
     close_out oc;
     
-    Printf.printf "  ✓ %s\n%!" filename;
+    Printf.printf "  ✓ %s\n%!" filename_json;
   ) Demo.figures;
   
-  Printf.printf "Done! Generated %d reference files.\n%!" (List.length Demo.figures)
+  Printf.printf "Done! Generated %d JSON reference files.\n%!" (List.length Demo.figures)
 
-(** Generate reference images using Python backend *)
-let generate_image_references () =
-  Printf.printf "\nGenerating image references (requires Python backend)...\n%!";
+(** Generate Python figure JSON reference files *)
+let generate_python_references () =
+  Printf.printf "\nGenerating Python figure JSON references...\n%!";
   
-  let ref_dir = "test/references/images" in
-  
+  let ref_dir = "test/references/python-json" in
   if not (Sys.file_exists ref_dir) then
     Unix.mkdir ref_dir 0o755;
   
-  try
-    let module Python = Plotly_python.Python in
+  List.iter (fun figure ->
+    let filename = get_filename figure in
+    let filename_json = filename ^ ".json" in
+    let ref_path = Filename.concat ref_dir filename_json in
     
-    List.iter (fun figure ->
-      let filename = get_filename figure in
-      let png_filename = (Filename.chop_extension filename) ^ ".png" in
-      let path = Filename.concat ref_dir png_filename in
+    try
+      let py_fig = Plotly_python.Python.of_figure figure in
+      let py_json = Plotly_python.Python.python_figure_to_json py_fig in
       
-      let py_fig = Python.of_figure figure in
-      Python.write_image py_fig path;
+      let json_str = Ezjsonm.value_to_string ~minify:false py_json in
+      let oc = open_out ref_path in
+      output_string oc json_str;
+      output_string oc "\n";
+      close_out oc;
       
-      Printf.printf "  ✓ %s\n%!" png_filename;
-    ) Demo.figures;
-    
-    Printf.printf "Done! Generated %d image references.\n%!" (List.length Demo.figures)
-  with e ->
-    Printf.eprintf "Error generating images: %s\n" (Printexc.to_string e);
-    Printf.eprintf "Make sure Python backend is available (pyml installed).\n%!"
+      Printf.printf "  ✓ %s\n%!" filename_json
+    with e ->
+      Printf.printf "  ✗ %s - Error: %s\n%!" filename (Printexc.to_string e)
+  ) Demo.figures;
+  
+  Printf.printf "Done! Generated %d Python reference files.\n%!" (List.length Demo.figures)
 
 let () =
   generate_json_references ();
-  generate_image_references ()
+  generate_python_references ()

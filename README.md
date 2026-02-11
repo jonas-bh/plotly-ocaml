@@ -17,14 +17,14 @@ to add new graphs, data and layout attributes. Your contributions are welcome.
 
 ## Testing
 
-The library includes a comprehensive regression testing system with both JSON (for JSOO backend) and visual (for Python backend) tests.
+There are tests suites to ensure that the generated graph specifications are correct, for both JSOO and Python backends.
 
-To run all regression tests (JSON + visual):
+To run all regression tests:
 ```bash
 dune test
 ```
 
-and to update reference files (after intentional changes):
+To update reference files (after intentional changes):
 ```bash
 dune exec test/generate_references.exe
 ```
