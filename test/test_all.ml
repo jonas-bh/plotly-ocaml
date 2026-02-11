@@ -97,8 +97,43 @@ let test_python_backend figure =
     false
 
 
+(** Check for duplicate figure titles and fail if duplicates exists *)
+let check_unique_titles () =
+  let get_title figure : string option =
+    match List.assoc_opt "title" (figure.Figure.layout :> Attribute.t list) with
+    | Some (Value (String, s)) -> Some s
+    | _ -> None
+  in
+  
+  let titles = List.filter_map get_title Demo.figures in
+  
+  (* Recursively find duplicates by checking if each title appears in the rest *)
+  let rec find_duplicates acc = function
+    | [] -> acc
+    | title :: rest ->
+        if List.exists (String.equal title) rest then
+          find_duplicates (title :: acc) rest
+        else
+          find_duplicates acc rest
+  in
+  
+  let duplicates = List.sort_uniq String.compare (find_duplicates [] titles) in
+  
+  match duplicates with
+  | [] -> () (* No duplicates found, continue *)
+  | dups ->
+      Printf.printf "\n❌ ERROR: DUPLICATE FIGURE TITLES ❌\n\n";
+      Printf.printf "The following titles appear more than once in Demo.figures:\n";
+      List.iter (fun title ->
+        Printf.printf "  • \"%s\"\n" title
+      ) dups;
+      Printf.printf "\nEach figure MUST have a unique title.\n";
+      exit 1
+
 (** Run all tests *)
 let run_tests () =
+  check_unique_titles ();
+  
   Printf.printf "\n========================================\n";
   Printf.printf "PLOTLY-OCAML REGRESSION TEST SUITE\n";
   Printf.printf "========================================\n\n";
