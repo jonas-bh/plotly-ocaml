@@ -139,6 +139,16 @@ let bar_hide_legend =
         ] ]
     [ title "Bar: Hiding Legend for Single Trace"; ]
 
+let scatter_with_custom_font =
+  let x_data = [| 1.0; 2.0; 3.0; 4.0; 5.0 |] in
+  let y_data = [| 1.0; 4.0; 9.0; 16.0; 25.0 |] in
+  figure
+    [ scatter [ x x_data; y y_data; mode "lines+markers" ] ]
+    [
+      title "Scatter with custom font";
+      font [ Font.font_family "Ubuntu"; Font.font_size 18.];
+    ]
+
 let figures =
   [ scatter_;
     scatter_markers;
@@ -153,4 +163,5 @@ let figures =
     histogram_;
     scatter_with_axes;
     bar_hide_legend;
+    scatter_with_custom_font;
   ]
