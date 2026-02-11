@@ -5,7 +5,6 @@ open Figure
 open Layout
 open Axis
 
-let font = font [Font.font_family "Ubuntu"]
 
 let scatter_ =
   figure
@@ -13,7 +12,7 @@ let scatter_ =
         [ xy [| (1.0, 1.0); (2.0, 2.0); (3.0, 4.0); (4.0, 8.0); (5.0, 16.0) |];
           (* mode "lines+markers" *)
         ] ]
-    [ title "Scatter lines+markers"; font ]
+    [ title "Scatter lines+markers" ]
 
 
 let scatter_markers =
@@ -22,7 +21,7 @@ let scatter_markers =
         [ xy [| (1.0, 1.0); (2.0, 2.0); (3.0, 4.0); (4.0, 8.0); (5.0, 16.0) |];
           mode "markers";
         ] ]
-    [ title "Scatter markers"; font ]
+    [ title "Scatter markers" ]
 
 let scatter_lines =
   figure
@@ -30,7 +29,7 @@ let scatter_lines =
         [ xy [| (1.0, 1.0); (2.0, 2.0); (3.0, 4.0); (4.0, 8.0); (5.0, 16.0) |];
           mode "lines";
         ] ]
-    [ title "Scatter lines"; font ]
+    [ title "Scatter lines" ]
 
 let scatter_multi =
   figure
@@ -44,7 +43,7 @@ let scatter_multi =
           mode "markers";
           name "Team B";
         ] ]
-    [ title "Scatter multi"; font ]
+    [ title "Scatter multi" ]
 
 let scatter_text =
   figure
@@ -52,7 +51,7 @@ let scatter_text =
         [ xy [| (1.0, 1.0); (2.0, 2.0); (3.0, 4.0); (4.0, 8.0); (5.0, 16.0) |];
           text [| "A"; "B"; "C"; "D"; "E" |]
         ] ]
-    [ title "Scatter with hoover texts"; font ]
+    [ title "Scatter with hoover texts" ]
 
 let scatter_3d =
   figure
@@ -60,7 +59,7 @@ let scatter_3d =
         [ xyz [| (1.0, 1.0, 1.0); (2.0, 2.0, 8.0); (3.0, 4.0, 27.0); (4.0, 8.0, 64.0); (5.0, 16.0, 125.0) |];
           text [| "A"; "B"; "C"; "D"; "E" |];
         ] ]
-    [ title "Scatter 3D"; font ]
+    [ title "Scatter 3D" ]
 
 let bar_ =
   figure
@@ -68,7 +67,7 @@ let bar_ =
         [ xy [| (1.0, 1.0); (2.0, 2.0); (3.0, 4.0); (4.0, 8.0); (5.0, 16.0) |];
           text [| "A"; "B"; "C"; "D"; "E" |];
         ] ]
-    [ title "Bar with hoover texts"; font ]
+    [ title "Bar with hoover texts" ]
 
 let bar_stack =
   figure
@@ -80,7 +79,7 @@ let bar_stack =
         [ xy [| (1.0, 1.0); (2.0, 2.0); (3.0, 4.0); (4.0, 8.0); (5.0, 16.0) |];
           text [| "A"; "B"; "C"; "D"; "E" |];
         ] ]
-    [ title "Stacked Bar"; font;
+    [ title "Stacked Bar";
              barmode "stack"
            ]
 
@@ -96,7 +95,7 @@ let bar_stack_horizontal =
           text [| "A"; "B"; "C"; "D"; "E" |];
           orientation "h";
         ] ]
-    [ title "Stacked Bar, horizontal"; font;
+    [ title "Stacked Bar, horizontal";
       barmode "stack"
     ]
 
@@ -105,7 +104,7 @@ let pie_ =
     [ pie [ values [| 1.0; 2.0; 3.0 |];
             labels [| "A"; "B"; "C" |];
           ] ]
-    [ title "Pie"; font ]
+    [ title "Pie" ]
 
 let histogram_ =
   figure
@@ -114,7 +113,7 @@ let histogram_ =
                       0.345; 0.456; 0.567; 0.678; 0.789; 0.891; 0.234; 0.345; 0.456; 0.567;
                       0.678; 0.789; 0.234; 0.345; 0.456; 0.567; 0.678; 0.789; 0.123; 0.234;
                       0.345; 0.456; 0.567; 0.678; 0.789; 0.234; 0.345; 0.456; 0.567; 0.678 |] ] ]
-    [ title "Histogram"; font ]
+    [ title "Histogram" ]
 
 let scatter_with_axes =
   let x_data = [| 1.0; 2.0; 3.0; 4.0; 5.0 |] in
@@ -122,7 +121,7 @@ let scatter_with_axes =
   figure
     [ scatter [ x x_data; y y_data; mode "lines+markers" ] ]
     [
-      title "Data with Custom Axis Labels"; font;
+      title "Data with Custom Axis Labels";
       xaxis [axis_title "Time (seconds)"; axis_type "linear"];
       yaxis [axis_title "Distance (meters)"; axis_range 0. 30.];
     ]
@@ -136,11 +135,9 @@ let bar_hide_legend =
       bar
         [ xy [| (1.0, 2.0); (2.0, 1.0); (3.0, 3.0); (4.0, 7.0); (5.0, 11.0) |];
           name "Hidden from Legend";
-          (* Note: Use Data.showlegend, not just showlegend, to avoid collision
-             with Layout.showlegend *)
           Data.showlegend false;
         ] ]
-    [ title "Bar: Hiding Legend for Single Trace"; font ]
+    [ title "Bar: Hiding Legend for Single Trace"; ]
 
 let figures =
   [ scatter_;
