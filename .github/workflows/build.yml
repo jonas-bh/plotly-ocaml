@@ -21,7 +21,8 @@ jobs:
     - name: Install system dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y imagemagick
+        sudo apt-get install -y imagemagick fonts-ubuntu
+        
     
     - name: Install Python dependencies
       run: pip install plotly kaleido
