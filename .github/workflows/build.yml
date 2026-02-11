@@ -19,7 +19,7 @@ jobs:
         ocaml-compiler: 5.0.x
     
     - name: Install Python dependencies
-      run: pip install plotly kaleido
+      run: pip install plotly
     
     - name: Install OCaml dependencies
       run: opam install . --deps-only
