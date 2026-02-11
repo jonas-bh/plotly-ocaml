@@ -1,7 +1,7 @@
 {
   "data": [
     {
-      "mode": "markers",
+      "mode": "lines+markers",
       "x": [
         1,
         2,
@@ -11,17 +11,21 @@
       ],
       "y": [
         1,
-        2,
         4,
-        8,
-        16
+        9,
+        16,
+        25
       ],
       "type": "scatter"
     }
   ],
   "layout": {
+    "font": {
+      "family": "Ubuntu",
+      "size": 18
+    },
     "title": {
-      "text": "Scatter markers"
+      "text": "Scatter with custom font"
     },
     "template": {
       "data": {

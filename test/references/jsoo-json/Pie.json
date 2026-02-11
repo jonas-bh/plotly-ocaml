@@ -15,9 +15,6 @@
     }
   ],
   "layout": {
-    "title": "Pie",
-    "font": {
-      "family": "Ubuntu"
-    }
+    "title": "Pie"
   }
 }

@@ -26,9 +26,6 @@
     }
   ],
   "layout": {
-    "title": "Bar with hoover texts",
-    "font": {
-      "family": "Ubuntu"
-    }
+    "title": "Bar with hoover texts"
   }
 }

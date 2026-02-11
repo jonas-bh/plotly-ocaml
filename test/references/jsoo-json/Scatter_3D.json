@@ -33,9 +33,6 @@
     }
   ],
   "layout": {
-    "title": "Scatter 3D",
-    "font": {
-      "family": "Ubuntu"
-    }
+    "title": "Scatter 3D"
   }
 }

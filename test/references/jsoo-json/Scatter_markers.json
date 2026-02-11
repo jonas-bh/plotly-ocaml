@@ -20,9 +20,6 @@
     }
   ],
   "layout": {
-    "title": "Scatter markers",
-    "font": {
-      "family": "Ubuntu"
-    }
+    "title": "Scatter markers"
   }
 }

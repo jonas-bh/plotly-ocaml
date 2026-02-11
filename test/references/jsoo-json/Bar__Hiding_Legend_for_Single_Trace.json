@@ -39,9 +39,6 @@
     }
   ],
   "layout": {
-    "title": "Bar: Hiding Legend for Single Trace",
-    "font": {
-      "family": "Ubuntu"
-    }
+    "title": "Bar: Hiding Legend for Single Trace"
   }
 }

@@ -20,9 +20,6 @@
     }
   ],
   "layout": {
-    "font": {
-      "family": "Ubuntu"
-    },
     "title": {
       "text": "Scatter lines"
     },

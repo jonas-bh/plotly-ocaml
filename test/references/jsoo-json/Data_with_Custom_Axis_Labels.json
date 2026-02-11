@@ -21,9 +21,6 @@
   ],
   "layout": {
     "title": "Data with Custom Axis Labels",
-    "font": {
-      "family": "Ubuntu"
-    },
     "xaxis": {
       "title": "Time (seconds)",
       "type": "linear"

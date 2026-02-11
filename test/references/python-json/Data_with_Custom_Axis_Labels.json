@@ -20,9 +20,6 @@
     }
   ],
   "layout": {
-    "font": {
-      "family": "Ubuntu"
-    },
     "title": {
       "text": "Data with Custom Axis Labels"
     },

@@ -11,15 +11,19 @@
       ],
       "y": [
         1,
-        2,
         4,
-        8,
-        16
+        9,
+        16,
+        25
       ],
-      "mode": "lines"
+      "mode": "lines+markers"
     }
   ],
   "layout": {
-    "title": "Scatter lines"
+    "title": "Scatter with custom font",
+    "font": {
+      "family": "Ubuntu",
+      "size": 18
+    }
   }
 }

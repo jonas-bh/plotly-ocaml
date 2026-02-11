@@ -26,9 +26,6 @@
     }
   ],
   "layout": {
-    "title": "Scatter with hoover texts",
-    "font": {
-      "family": "Ubuntu"
-    }
+    "title": "Scatter with hoover texts"
   }
 }

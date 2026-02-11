@@ -19,9 +19,6 @@
     }
   ],
   "layout": {
-    "title": "Scatter lines+markers",
-    "font": {
-      "family": "Ubuntu"
-    }
+    "title": "Scatter lines+markers"
   }
 }
