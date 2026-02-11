@@ -1,0 +1,14 @@
+(data_only_dirs references)
+
+(executable
+ (name test_all)
+ (libraries plotly plotly_demo plotly_python ezjsonm unix))
+
+(executable
+ (name generate_references)
+ (libraries plotly plotly_demo plotly_python ezjsonm unix))
+
+(rule
+ (alias runtest)
+ (deps (source_tree references))
+ (action (chdir %{workspace_root} (run ./test/test_all.exe))))

@@ -68,6 +68,15 @@ let of_figure fig : figure t =
     ["data", data;
      "layout", layout]
 
+let python_figure_to_json (fig : figure t) : Ezjsonm.value =
+  match Py.Object.get_attr_string fig "to_json" with
+  | None -> failwith "Python figure missing 'to_json' method"
+  | Some to_json_method ->
+      let to_json_fn = Py.Callable.to_function_with_keywords to_json_method in
+      let json_str = to_json_fn [||] [] in
+      let json_py_str = Py.String.to_string json_str in
+      Ezjsonm.value_from_string json_py_str
+
 let show ?renderer figure =
   match Py.Object.get_attr_string figure "show" with
   | None -> failwith "no show"

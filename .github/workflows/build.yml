@@ -18,8 +18,15 @@ jobs:
       with:
         ocaml-compiler: 5.0.x
     
-    - name: Install dependencies
+    - name: Install Python dependencies
+      run: pip install plotly
+    
+    - name: Install OCaml dependencies
       run: opam install . --deps-only
     
     - name: Build
       run: eval $(opam env) && dune build
+    
+    - name: Run tests
+      run: eval $(opam env) && dune runtest
+    

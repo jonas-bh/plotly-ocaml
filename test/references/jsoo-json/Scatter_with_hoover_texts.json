@@ -1,0 +1,31 @@
+{
+  "data": [
+    {
+      "type": "scatter",
+      "x": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "y": [
+        1,
+        2,
+        4,
+        8,
+        16
+      ],
+      "text": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E"
+      ]
+    }
+  ],
+  "layout": {
+    "title": "Scatter with hoover texts"
+  }
+}

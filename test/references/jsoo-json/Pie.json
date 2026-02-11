@@ -1,0 +1,20 @@
+{
+  "data": [
+    {
+      "type": "pie",
+      "values": [
+        1,
+        2,
+        3
+      ],
+      "labels": [
+        "A",
+        "B",
+        "C"
+      ]
+    }
+  ],
+  "layout": {
+    "title": "Pie"
+  }
+}

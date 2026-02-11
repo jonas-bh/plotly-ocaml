@@ -1,0 +1,58 @@
+{
+  "data": [
+    {
+      "type": "bar",
+      "x": [
+        1,
+        2,
+        4,
+        8,
+        16
+      ],
+      "y": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "text": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E"
+      ],
+      "orientation": "h"
+    },
+    {
+      "type": "bar",
+      "x": [
+        1,
+        2,
+        4,
+        8,
+        16
+      ],
+      "y": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "text": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E"
+      ],
+      "orientation": "h"
+    }
+  ],
+  "layout": {
+    "title": "Stacked Bar, horizontal",
+    "barmode": "stack"
+  }
+}

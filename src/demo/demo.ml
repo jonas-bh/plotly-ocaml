@@ -108,7 +108,11 @@ let pie_ =
 
 let histogram_ =
   figure
-    [ histogram [ x (Array.init 500 (fun _ -> Random.float 1.0)) ] ]
+    [ histogram [ x [| 0.142; 0.823; 0.456; 0.789; 0.234; 0.567; 0.891; 0.345; 0.678; 0.912;
+                      0.123; 0.456; 0.789; 0.234; 0.567; 0.891; 0.345; 0.678; 0.912; 0.234;
+                      0.345; 0.456; 0.567; 0.678; 0.789; 0.891; 0.234; 0.345; 0.456; 0.567;
+                      0.678; 0.789; 0.234; 0.345; 0.456; 0.567; 0.678; 0.789; 0.123; 0.234;
+                      0.345; 0.456; 0.567; 0.678; 0.789; 0.234; 0.345; 0.456; 0.567; 0.678 |] ] ]
     [ title "Histogram" ]
 
 let scatter_with_axes =
@@ -131,11 +135,19 @@ let bar_hide_legend =
       bar
         [ xy [| (1.0, 2.0); (2.0, 1.0); (3.0, 3.0); (4.0, 7.0); (5.0, 11.0) |];
           name "Hidden from Legend";
-          (* Note: Use Data.showlegend, not just showlegend, to avoid collision
-             with Layout.showlegend *)
           Data.showlegend false;
         ] ]
-    [ title "Bar: Hiding Legend for Single Trace" ]
+    [ title "Bar: Hiding Legend for Single Trace"; ]
+
+let scatter_with_custom_font =
+  let x_data = [| 1.0; 2.0; 3.0; 4.0; 5.0 |] in
+  let y_data = [| 1.0; 4.0; 9.0; 16.0; 25.0 |] in
+  figure
+    [ scatter [ x x_data; y y_data; mode "lines+markers" ] ]
+    [
+      title "Scatter with custom font";
+      font [ Font.font_family "Ubuntu"; Font.font_size 18.];
+    ]
 
 let figures =
   [ scatter_;
@@ -151,4 +163,5 @@ let figures =
     histogram_;
     scatter_with_axes;
     bar_hide_legend;
+    scatter_with_custom_font;
   ]
