@@ -16,6 +16,7 @@ module Data = struct
   let y = array "y" Type.Float
   let z = array "z" Type.Float
   let showlegend = bool "showlegend"
+  let hovertemplate = string "hovertemplate"
 
   let xy xys =
     let xs = Array.map fst xys in
