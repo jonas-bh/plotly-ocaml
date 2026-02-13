@@ -149,6 +149,21 @@ let scatter_with_custom_font =
       font [ Font.font_family "Ubuntu"; Font.font_size 18.];
     ]
 
+let scatter_with_hovertemplate =
+  let x_data = [| 1.0; 2.0; 3.0; 4.0; 5.0 |] in
+  let y_data = [| 1.0; 4.0; 9.0; 16.0; 25.0 |] in
+  let x_title = "Time (seconds)" in
+  let y_title = "Distance (meters)" in
+  figure
+    [ scatter [ x x_data; y y_data; 
+                hovertemplate (x_title ^ ": %{x}<br>" ^ y_title ^ ": %{y}<extra></extra>");
+              ] ]
+    [
+      title [Title.text "Scatter with hovertemplate"];
+      xaxis [axis_title [Title.text x_title]];
+      yaxis [axis_title [Title.text y_title]];
+    ]
+
 let figures =
   [ scatter_;
     scatter_markers;
@@ -164,4 +179,5 @@ let figures =
     scatter_with_axes;
     bar_hide_legend;
     scatter_with_custom_font;
+    scatter_with_hovertemplate;
   ]
