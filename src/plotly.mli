@@ -79,6 +79,11 @@ module Data : sig
   val y : float array -> t
   val z : float array -> t
   val showlegend : bool -> t
+  
+  (** Set a custom hover template for the data points.
+  
+  See https://plotly.com/python/reference/pie/#pie-hovertemplate *)
+  val hovertemplate : string -> t
 
   (* The argument is splitted to build attributes [x] and [y] *)
   val xy : (float * float) array -> t
