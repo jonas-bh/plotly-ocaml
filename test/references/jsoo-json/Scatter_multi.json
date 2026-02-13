@@ -39,6 +39,8 @@
     }
   ],
   "layout": {
-    "title": "Scatter multi"
+    "title": {
+      "text": "Scatter multi"
+    }
   }
 }

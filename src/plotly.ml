@@ -38,17 +38,24 @@ module Data = struct
   let to_json = Attributes.to_json
   let of_json = Attributes.of_json
 end
+module Title = struct
+  let text s = ("text", Base.Value.Value (Base.Value.string s))
+  let font font_attrs = ("font", Base.Value.Object font_attrs)
+end
 
 module Layout = struct
   open Attributes
 
   type t = Attribute.t list
 
-  let title = string "title"
+  module Title = Title
+
+  let title attrs = [("title", Base.Value.Object attrs)]
   let barmode = string "barmode"
   let showlegend = bool "showlegend"
   module Axis = struct
-    let axis_title s = ("title", Base.Value.Value (Base.Value.string s))
+    module Title = Title
+    let axis_title attrs = ("title", Base.Value.Object attrs)
     let axis_type s = ("type", Base.Value.Value (Base.Value.string s))
     let axis_range low high = ("range", Base.Value.Value (Base.Value.array Base.Type.Float [|low; high|]))
     let axis_showgrid b = ("showgrid", Base.Value.Value (Base.Value.bool b))

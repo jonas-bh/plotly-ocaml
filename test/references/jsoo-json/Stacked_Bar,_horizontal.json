@@ -52,7 +52,9 @@
     }
   ],
   "layout": {
-    "title": "Stacked Bar, horizontal",
+    "title": {
+      "text": "Stacked Bar, horizontal"
+    },
     "barmode": "stack"
   }
 }

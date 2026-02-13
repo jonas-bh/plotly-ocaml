@@ -57,6 +57,8 @@
     }
   ],
   "layout": {
-    "title": "Histogram"
+    "title": {
+      "text": "Histogram"
+    }
   }
 }

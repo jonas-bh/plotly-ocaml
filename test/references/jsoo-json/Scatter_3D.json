@@ -33,6 +33,8 @@
     }
   ],
   "layout": {
-    "title": "Scatter 3D"
+    "title": {
+      "text": "Scatter 3D"
+    }
   }
 }

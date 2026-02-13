@@ -94,17 +94,27 @@ module Data : sig
   val to_json : t -> Ezjsonm.value
   val of_json : Ezjsonm.value -> t option
 end
+module Title : sig
+  (** Set the title text *)
+  val text : string -> string * Base.Value.value
+
+  (** Set the font properties *)
+  val font : (string * Base.Value.value) list -> string * Base.Value.value
+end
 
 module Layout : sig
   type t = private Attribute.t list
 
-  val title : string -> t
+  module Title = Title
+  val title : (string * Base.Value.value) list -> t
+
   val barmode : string -> t
   val showlegend : bool -> t
 
   module Axis : sig
-    (** Set axis title *)
-    val axis_title : string -> string * Base.Value.value
+    module Title = Title
+
+    val axis_title : (string * Base.Value.value) list -> string * Base.Value.value
 
     (** 
       Set axis type (e.g. ["linear"] or ["log"]) 

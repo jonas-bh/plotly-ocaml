@@ -26,6 +26,8 @@
     }
   ],
   "layout": {
-    "title": "Scatter with hoover texts"
+    "title": {
+      "text": "Scatter with hoover texts"
+    }
   }
 }

@@ -26,6 +26,8 @@
     }
   ],
   "layout": {
-    "title": "Bar with hoover texts"
+    "title": {
+      "text": "Bar with hoover texts"
+    }
   }
 }

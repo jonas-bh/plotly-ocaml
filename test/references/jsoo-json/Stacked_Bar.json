@@ -50,7 +50,9 @@
     }
   ],
   "layout": {
-    "title": "Stacked Bar",
+    "title": {
+      "text": "Stacked Bar"
+    },
     "barmode": "stack"
   }
 }

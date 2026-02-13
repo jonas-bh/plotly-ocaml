@@ -20,6 +20,8 @@
     }
   ],
   "layout": {
-    "title": "Scatter markers"
+    "title": {
+      "text": "Scatter markers"
+    }
   }
 }

@@ -20,6 +20,8 @@
     }
   ],
   "layout": {
-    "title": "Scatter lines"
+    "title": {
+      "text": "Scatter lines"
+    }
   }
 }
