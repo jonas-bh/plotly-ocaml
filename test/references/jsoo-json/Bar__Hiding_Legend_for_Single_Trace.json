@@ -39,6 +39,8 @@
     }
   ],
   "layout": {
-    "title": "Bar: Hiding Legend for Single Trace"
+    "title": {
+      "text": "Bar: Hiding Legend for Single Trace"
+    }
   }
 }

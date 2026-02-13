@@ -19,6 +19,8 @@
     }
   ],
   "layout": {
-    "title": "Scatter lines+markers"
+    "title": {
+      "text": "Scatter lines+markers"
+    }
   }
 }

@@ -5,7 +5,7 @@ open Plotly_demo
 let get_filename figure : string =
   let get_title figure : string option =
     match List.assoc_opt "title" (figure.Figure.layout :> Attribute.t list) with
-    | Some (Value (String, s)) -> Some s
+    | Some (Object [("text", Value (String, s))]) -> Some s
     | _ -> None
   in
   match get_title figure with

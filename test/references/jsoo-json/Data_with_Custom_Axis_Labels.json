@@ -20,13 +20,19 @@
     }
   ],
   "layout": {
-    "title": "Data with Custom Axis Labels",
+    "title": {
+      "text": "Data with Custom Axis Labels"
+    },
     "xaxis": {
-      "title": "Time (seconds)",
+      "title": {
+        "text": "Time (seconds)"
+      },
       "type": "linear"
     },
     "yaxis": {
-      "title": "Distance (meters)",
+      "title": {
+        "text": "Distance (meters)"
+      },
       "range": [
         0,
         30
