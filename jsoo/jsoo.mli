@@ -10,15 +10,14 @@ type plotly =
       Dom_html.divElement Js.t ->
       data Js.t Js.js_array Js.t ->
       layout Js.t ->
-      config Js.t -> unit Js.meth;
-
-    react :
+      config Js.t ->
+      unit Js.meth
+  ; react :
       Dom_html.divElement Js.t ->
       data Js.t Js.js_array Js.t ->
       layout Js.t ->
-      config Js.t -> unit Js.meth;
-  >
+      config Js.t ->
+      unit Js.meth >
 
 val plotly : plotly Js.t
-
 val create : Dom_html.divElement Js.t -> Plotly.Figure.t -> unit

@@ -1,7 +1,5 @@
 open Js_of_ocaml
-
 module Html = Dom_html
-
 open Plotly_demo
 open Plotly_jsoo
 open Jsoo

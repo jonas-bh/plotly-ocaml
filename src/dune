@@ -2,5 +2,4 @@
  (name plotly)
  (public_name plotly)
  (flags :standard)
- (libraries 
-    ezjsonm))
+ (libraries ezjsonm))

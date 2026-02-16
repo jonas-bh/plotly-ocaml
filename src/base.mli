@@ -11,16 +11,13 @@ end
 
 module Value : sig
   type 'a t = 'a Type.t * 'a
-  type value = 
-    | Value : 'a t -> value
-    | Object : (string * value) list -> value
+  type value = Value : 'a t -> value | Object : (string * value) list -> value
 
   val float : float -> float t
   val string : string -> string t
   val bool : bool -> bool t
   val array : 'a Type.t -> 'a array -> 'a array t
   val object_ : Ezjsonm.value -> Ezjsonm.value t
-
   val to_json : value -> Ezjsonm.value
   val of_json : Ezjsonm.value -> value option
 end
@@ -36,7 +33,6 @@ module Attributes : sig
   val string : string -> string -> Attribute.t list
   val bool : string -> bool -> Attribute.t list
   val array : string -> 'a Type.t -> 'a array -> Attribute.t list
-
   val to_json : t -> Ezjsonm.value
   val of_json : Ezjsonm.value -> t option
 end
@@ -45,11 +41,8 @@ module Marker : sig
   type t = private Attribute.t list
 
   val color : string -> Attribute.t list
-
   val colors : string array -> Attribute.t list
-
   val marker : Attribute.t list list -> t
-
   val to_json : t -> Ezjsonm.value
   val of_json : Ezjsonm.value -> t option
 end

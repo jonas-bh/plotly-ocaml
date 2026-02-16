@@ -10,5 +10,9 @@
 
 (rule
  (alias runtest)
- (deps (source_tree references))
- (action (chdir %{workspace_root} (run ./test/test_all.exe))))
+ (deps
+  (source_tree references))
+ (action
+  (chdir
+   %{workspace_root}
+   (run ./test/test_all.exe))))

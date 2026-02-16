@@ -14,31 +14,38 @@ let rec conv_value v =
       let vs = Array.map (fun v -> conv_value (Value (ty, v))) vs in
       Js.Unsafe.inject @@ Js.array vs
   | Object kvs ->
-      let obj = Js.Unsafe.obj (Array.of_list @@ List.map (fun (k, v) -> (k, conv_value v)) kvs) in
+      let obj =
+        Js.Unsafe.obj
+          (Array.of_list @@ List.map (fun (k, v) -> (k, conv_value v)) kvs)
+      in
       Js.Unsafe.inject obj
   | Value (Object, obj) -> of_json_value (obj : Ezjsonm.value)
+
 and of_json_value (j : Ezjsonm.value) : _ Js.t =
   match (j : Ezjsonm.value) with
   | `String s -> Js.Unsafe.inject @@ Js.string s
   | `Float f -> Js.Unsafe.inject @@ Js.float f
   | `Bool b -> Js.Unsafe.inject @@ Js.bool b
   | `Null -> Js.Unsafe.inject Js.null
-  | `A vs -> Js.Unsafe.inject @@ Js.array (Array.of_list (List.map of_json_value vs))
+  | `A vs ->
+      Js.Unsafe.inject @@ Js.array (Array.of_list (List.map of_json_value vs))
   | `O kvs ->
-      Js.Unsafe.obj @@ Array.of_list @@
-      List.map (fun (k, v) -> (k, of_json_value v)) kvs
+      Js.Unsafe.obj @@ Array.of_list
+      @@ List.map (fun (k, v) -> (k, of_json_value v)) kvs
 
 let obj_of_attributes (xs : Attribute.t list) : _ Js.t =
-  Js.Unsafe.obj @@
-  Array.of_list @@
-  List.fold_left (fun acc (n, v) ->
-      if List.mem_assoc n acc then assert false; (* warning? *)
-      (n, conv_value v) :: acc) [] xs
+  Js.Unsafe.obj @@ Array.of_list
+  @@ List.fold_left
+       (fun acc (n, v) ->
+         if List.mem_assoc n acc then assert false;
+         (* warning? *)
+         (n, conv_value v) :: acc)
+       [] xs
 
-let obj_of_graph_object Graph.{type_; data} =
+let obj_of_graph_object Graph.{ type_; data } =
   obj_of_attributes
   @@ Attributes.string "type" type_
-     @ (data :> Attribute.t list)
+  @ (data :> Attribute.t list)
 
 let obj_of_layout (layout : Plotly.Layout.t) =
   obj_of_attributes (layout :> Attribute.t list)
@@ -53,22 +60,18 @@ type plotly =
       Html.divElement Js.t ->
       data Js.t Js.js_array Js.t ->
       layout Js.t ->
-      config Js.t -> unit Js.meth;
-
-    react :
+      config Js.t ->
+      unit Js.meth
+  ; react :
       Html.divElement Js.t ->
       data Js.t Js.js_array Js.t ->
       layout Js.t ->
-      config Js.t -> unit Js.meth;
-  >
+      config Js.t ->
+      unit Js.meth >
 
 let plotly : plotly Js.t = Js.Unsafe.pure_js_expr "Plotly"
 
 let create div fig =
-  plotly##newPlot
-    div
-    (Js.array
-     @@ Array.of_list
-     @@ List.map obj_of_graph_object fig.Figure.graphs)
-    (obj_of_layout fig.layout)
-    (Js.Unsafe.obj [||])
+  plotly##newPlot div
+    (Js.array @@ Array.of_list @@ List.map obj_of_graph_object fig.Figure.graphs)
+    (obj_of_layout fig.layout) (Js.Unsafe.obj [||])

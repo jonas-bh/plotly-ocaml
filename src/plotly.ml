@@ -5,12 +5,12 @@ module Data = struct
 
   type t = Attribute.t list
 
-  let mode   = string "mode"
-  let name   = string "name"
+  let mode = string "mode"
+  let name = string "name"
   let legendgroup = string "legendgroup"
   let labels = array "labels" Type.String
   let values = array "values" Type.Float
-  let text   = array "text" Type.String
+  let text = array "text" Type.String
   let orientation = string "orientation"
   let x = array "x" Type.Float
   let y = array "y" Type.Float
@@ -23,21 +23,21 @@ module Data = struct
     x xs @ y ys
 
   let xyz xyzs =
-    let xs = Array.map (fun (x,_,_) -> x) xyzs in
-    let ys = Array.map (fun (_,y,_) -> y) xyzs in
-    let zs = Array.map (fun (_,_,z) -> z) xyzs in
+    let xs = Array.map (fun (x, _, _) -> x) xyzs in
+    let ys = Array.map (fun (_, y, _) -> y) xyzs in
+    let zs = Array.map (fun (_, _, z) -> z) xyzs in
     x xs @ y ys @ z zs
 
   let marker (marker_attrs : Attribute.t list list) : t =
     let combined = Marker.marker marker_attrs in
     let marker_obj = Attributes.to_json (combined :> Attribute.t list) in
-    ["marker", Value.Value (Value.object_ marker_obj)]
+    [ ("marker", Value.Value (Value.object_ marker_obj)) ]
 
   let data ds = ds
-
   let to_json = Attributes.to_json
   let of_json = Attributes.of_json
 end
+
 module Title = struct
   let text s = ("text", Base.Value.Value (Base.Value.string s))
   let font font_attrs = ("font", Base.Value.Object font_attrs)
@@ -50,17 +50,25 @@ module Layout = struct
 
   module Title = Title
 
-  let title attrs = [("title", Base.Value.Object attrs)]
+  let title attrs = [ ("title", Base.Value.Object attrs) ]
   let barmode = string "barmode"
   let showlegend = bool "showlegend"
+
   module Axis = struct
     module Title = Title
+
     let axis_title attrs = ("title", Base.Value.Object attrs)
     let axis_type s = ("type", Base.Value.Value (Base.Value.string s))
-    let axis_range low high = ("range", Base.Value.Value (Base.Value.array Base.Type.Float [|low; high|]))
+
+    let axis_range low high =
+      ( "range",
+        Base.Value.Value (Base.Value.array Base.Type.Float [| low; high |]) )
+
     let axis_showgrid b = ("showgrid", Base.Value.Value (Base.Value.bool b))
     let axis_zeroline b = ("zeroline", Base.Value.Value (Base.Value.bool b))
-    let axis_tickformat s = ("tickformat", Base.Value.Value (Base.Value.string s))
+
+    let axis_tickformat s =
+      ("tickformat", Base.Value.Value (Base.Value.string s))
   end
 
   module Font = struct
@@ -69,13 +77,11 @@ module Layout = struct
     let font_color c = ("color", Base.Value.Value (Base.Value.string c))
   end
 
-  let xaxis ax = [("xaxis", Base.Value.Object ax)]
-  let yaxis ay = [("yaxis", Base.Value.Object ay)]
-  let zaxis az = [("zaxis", Base.Value.Object az)]
-  let font f = [("font", Base.Value.Object f)]
-
+  let xaxis ax = [ ("xaxis", Base.Value.Object ax) ]
+  let yaxis ay = [ ("yaxis", Base.Value.Object ay) ]
+  let zaxis az = [ ("zaxis", Base.Value.Object az) ]
+  let font f = [ ("font", Base.Value.Object f) ]
   let layout ats = ats
-
   let to_json = Attributes.to_json
   let of_json = Attributes.of_json
 end
@@ -83,13 +89,18 @@ end
 module Graph = struct
   type t = { type_ : string; data : Data.t }
 
-  let scatter data_list = { type_ = "scatter"; data= List.flatten data_list }
-  let scatter3d data_list = { type_ = "scatter3d"; data= List.flatten data_list }
-  let bar data_list = { type_ = "bar"; data= List.flatten data_list }
-  let pie data_list = { type_ = "pie"; data= List.flatten data_list }
-  let histogram data_list = { type_ = "histogram"; data= List.flatten data_list }
+  let scatter data_list = { type_ = "scatter"; data = List.flatten data_list }
 
-  let graph type_ data_list = { type_; data= List.flatten data_list }
+  let scatter3d data_list =
+    { type_ = "scatter3d"; data = List.flatten data_list }
+
+  let bar data_list = { type_ = "bar"; data = List.flatten data_list }
+  let pie data_list = { type_ = "pie"; data = List.flatten data_list }
+
+  let histogram data_list =
+    { type_ = "histogram"; data = List.flatten data_list }
+
+  let graph type_ data_list = { type_; data = List.flatten data_list }
 
   let to_json g =
     match Data.to_json g.data with
@@ -97,32 +108,30 @@ module Graph = struct
     | _ -> assert false
 
   let of_json = function
-    | `O kvs ->
+    | `O kvs -> (
         let open Option in
         let type_, others =
-          List.partition (function ("type", _) -> true | _ -> false) kvs
+          List.partition (function "type", _ -> true | _ -> false) kvs
         in
-        (match type_ with
-         | ["type", `String type_] ->
-             let+ data = Data.of_json (`O others) in
-             { type_; data }
-         | _ -> None)
+        match type_ with
+        | [ ("type", `String type_) ] ->
+            let+ data = Data.of_json (`O others) in
+            { type_; data }
+        | _ -> None)
     | _ -> None
 end
 
 module Figure = struct
-  type t =
-    { graphs : Graph.t list;
-      layout : Layout.t }
+  type t = { graphs : Graph.t list; layout : Layout.t }
 
-  let figure graphs layout = { graphs; layout= List.flatten layout }
+  let figure graphs layout = { graphs; layout = List.flatten layout }
 
   let to_json g =
     let graphs = List.map Graph.to_json g.graphs in
     let layout = Layout.to_json g.layout in
     (* Not ["graphs"] but ["data"] to make it compatible with
        Plotly JS library *)
-    `O ["data", `A graphs; "layout", layout]
+    `O [ ("data", `A graphs); ("layout", layout) ]
 
   let of_json j =
     let open Option in
@@ -131,7 +140,7 @@ module Figure = struct
         let* graphs = List.assoc_opt "data" kvs in
         let* graphs =
           match graphs with
-          | `A graphs -> Option.mapM Graph.of_json  graphs
+          | `A graphs -> Option.mapM Graph.of_json graphs
           | _ -> None
         in
         let* layout = List.assoc_opt "layout" kvs in
