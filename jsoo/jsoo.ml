@@ -60,6 +60,11 @@ type plotly =
       data Js.t Js.js_array Js.t ->
       layout Js.t ->
       config Js.t -> unit Js.meth;
+
+    validate :
+      data Js.t Js.js_array Js.t ->
+      layout Js.t ->
+      Js.js_string Js.t Js.js_array Js.t Js.meth;
   >
 
 let plotly : plotly Js.t = Js.Unsafe.pure_js_expr "Plotly"
@@ -72,3 +77,10 @@ let create div fig =
      @@ List.map obj_of_graph_object fig.Figure.graphs)
     (obj_of_layout fig.layout)
     (Js.Unsafe.obj [||])
+let validate fig = 
+  let data_array = Js.array (Array.of_list (List.map obj_of_graph_object fig.Figure.graphs)) in
+  let layout = obj_of_layout fig.layout in
+  plotly##validate data_array layout
+  |> Js.to_array
+  |> Array.to_list
+  |> List.map Js.to_string
