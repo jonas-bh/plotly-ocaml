@@ -33,31 +33,37 @@ let test_json_figure figure =
   let current_json = Figure.to_json figure in
   let test_name = filename in
   
-  if Sys.file_exists ref_path then begin
-    let ref_json = Ezjsonm.value_from_channel (open_in ref_path) in
-    
-    if not (json_equal current_json ref_json) then begin
-      Printf.printf "  ✗ %s - JSON doesn't match reference\n" test_name;
+  (* Validate that the generated JSON produces a valid Plotly figure by deserializing it *)
+  match Figure.of_json current_json with
+  | None ->
+      Printf.printf "  ✗ %s - Invalid Plotly figure (failed to deserialize)\n" test_name;
       false
-    end else begin
-      match Figure.of_json current_json with
-      | Some fig' ->
-          let roundtrip_json = Figure.to_json fig' in
-          if not (json_equal current_json roundtrip_json) then begin
-            Printf.printf "  ✗ %s - Round-trip failed\n" test_name;
-            false
-          end else begin
-            Printf.printf "  ✓ %s (JSON)\n" test_name;
-            true
-          end
-      | None ->
-          Printf.printf "  ✗ %s - Failed to parse generated JSON\n" test_name;
+  | Some _ ->
+      if Sys.file_exists ref_path then begin
+        let ref_json = Ezjsonm.value_from_channel (open_in ref_path) in
+        
+        if not (json_equal current_json ref_json) then begin
+          Printf.printf "  ✗ %s - JSON doesn't match reference\n" test_name;
           false
-    end
-  end else begin
-    Printf.printf "  ? %s - No JSON reference\n" test_name;
-    false
-  end
+        end else begin
+          match Figure.of_json current_json with
+          | Some fig' ->
+              let roundtrip_json = Figure.to_json fig' in
+              if not (json_equal current_json roundtrip_json) then begin
+                Printf.printf "  ✗ %s - Round-trip failed\n" test_name;
+                false
+              end else begin
+                Printf.printf "  ✓ %s (JSON)\n" test_name;
+                true
+              end
+          | None ->
+              Printf.printf "  ✗ %s - Failed to parse generated JSON\n" test_name;
+              false
+        end
+      end else begin
+        Printf.printf "  ? %s - No JSON reference\n" test_name;
+        false
+      end
 
 let test_python_backend figure =
   let module Python = Plotly_python.Python in
@@ -74,24 +80,28 @@ let test_python_backend figure =
     (* Convert figure to Python object *)
     let py_fig = Python.of_figure figure in
     
-    (* Extract JSON from the actual Python figure object *)
-    let py_json = Python.python_figure_to_json py_fig in
-    
-    (* Verify it matches the Python-specific reference *)
-    if Sys.file_exists ref_path then begin
-      let ref_json = Ezjsonm.value_from_channel (open_in ref_path) in
-      
-      if not (json_equal py_json ref_json) then begin
-        Printf.printf "  ✗ %s - Python figure JSON doesn't match reference\n" filename;
+    (* Validate the figure using Plotly's Python validate function *)
+    match Python.validate py_fig with
+    | Error err ->
+        Printf.printf "  ✗ %s - Invalid Plotly figure (validation error: %s)\n" filename err;
         false
-      end else begin
-        Printf.printf "  ✓ %s (Python backend)\n" filename;
-        true
-      end
-    end else begin
-      Printf.printf "  ? %s - No Python reference (run: dune exec test/generate_python_references.exe)\n" filename;
-      false
-    end
+    | Ok _errors ->
+        let py_json = Python.python_figure_to_json py_fig in
+        
+        if Sys.file_exists ref_path then begin
+          let ref_json = Ezjsonm.value_from_channel (open_in ref_path) in
+          
+          if not (json_equal py_json ref_json) then begin
+            Printf.printf "  ✗ %s - Python figure JSON doesn't match reference\n" filename;
+            false
+          end else begin
+            Printf.printf "  ✓ %s (Python backend)\n" filename;
+            true
+          end
+        end else begin
+          Printf.printf "  ? %s - No Python reference (run: dune exec test/generate_python_references.exe)\n" filename;
+          false
+        end
   with e ->
     Printf.printf "  ✗ %s - Python backend error: %s\n" filename (Printexc.to_string e);
     false

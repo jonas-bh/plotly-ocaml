@@ -92,3 +92,18 @@ let write_image figure path =
   | Some f ->
       let f = Py.Callable.to_function_with_keywords f in
       ignore @@ f [| Py.String.of_string path |] []
+
+let validate (figure : figure t) : (string list, string) result =
+  try
+    let plotly_io = Py.Import.import_module "plotly.io" in
+    match Py.Object.get_attr_string plotly_io "to_json" with
+    | None -> Error "plotly.io.to_json not found"
+    | Some to_json_fn ->
+        let to_json_fn = Py.Callable.to_function_with_keywords to_json_fn in
+        (try
+          let _ = to_json_fn [| figure |] ["validate", Py.Bool.of_bool true] in
+          Ok []
+        with Py.E (_, _) ->
+          Error "Figure validation failed")
+  with _ ->
+    Ok []
