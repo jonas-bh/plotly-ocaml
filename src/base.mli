@@ -41,12 +41,29 @@ module Attributes : sig
   val of_json : Ezjsonm.value -> t option
 end
 
+module MarkerLine : sig
+  type t = private Attribute.t list
+
+  val color : string -> Attribute.t list
+
+  val width : float -> Attribute.t list
+
+  val dash : string -> Attribute.t list
+
+  val line : Attribute.t list list -> t
+
+  val to_json : t -> Ezjsonm.value
+  val of_json : Ezjsonm.value -> t option
+end
+
 module Marker : sig
   type t = private Attribute.t list
 
   val color : string -> Attribute.t list
 
   val colors : string array -> Attribute.t list
+
+  val line : Attribute.t list list -> Attribute.t list
 
   val marker : Attribute.t list list -> t
 
