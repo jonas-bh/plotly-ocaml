@@ -1,0 +1,37 @@
+{
+  "data": [
+    {
+      "type": "scatter",
+      "x": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "y": [
+        1,
+        4,
+        9,
+        16,
+        25
+      ],
+      "hovertemplate": "Time (seconds): %{x}<br>Distance (meters): %{y}<extra></extra>"
+    }
+  ],
+  "layout": {
+    "title": {
+      "text": "Scatter with hovertemplate"
+    },
+    "xaxis": {
+      "title": {
+        "text": "Time (seconds)"
+      }
+    },
+    "yaxis": {
+      "title": {
+        "text": "Distance (meters)"
+      }
+    }
+  }
+}
