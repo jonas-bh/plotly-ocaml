@@ -101,6 +101,21 @@ module Attributes = struct
     | _ -> None
 end
 
+module MarkerLine = struct
+  open Attributes
+
+  type t = Attribute.t list
+
+  let color c = string "color" c
+  let width w = float "width" w
+  let dash s = string "dash" s
+
+  let line ats = List.concat ats
+
+  let to_json = Attributes.to_json
+  let of_json = Attributes.of_json
+end
+
 module Marker = struct
   open Attributes
 
@@ -108,6 +123,11 @@ module Marker = struct
 
   let color c = string "color" c
   let colors cs = array "color" Type.String cs
+
+  let line (line_attrs : Attribute.t list list) =
+    let combined = MarkerLine.line line_attrs in
+    let line_obj = Attributes.to_json (combined :> Attribute.t list) in
+    ["line", Value.Value (Value.object_ line_obj)]
 
   let marker ats = List.concat ats
 

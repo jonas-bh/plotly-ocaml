@@ -41,6 +41,28 @@ module Attributes : sig
   val of_json : Ezjsonm.value -> t option
 end
 
+module MarkerLine : sig
+  type t = private Attribute.t list
+
+  (** Set the color of the marker line.
+
+    The color may be specified by its color name (e.g., ["LightBlue"]), hex code (e.g., ["#ADD8E6"]), or RGB(A) string (e.g., ["rgba(173, 216, 230, 1)"]). 
+    The latter allows for specifying transparency.
+  *)
+  val color : string -> Attribute.t list
+
+  (** Set the width of the marker line *)
+  val width : float -> Attribute.t list
+
+  (** Set the dash style of the marker line (e.g., ["solid"], ["dash"], ["dot"], ["dashdot"]) *)
+  val dash : string -> Attribute.t list
+
+  val line : Attribute.t list list -> t
+
+  val to_json : t -> Ezjsonm.value
+  val of_json : Ezjsonm.value -> t option
+end
+
 module Marker : sig
   type t = private Attribute.t list
 
@@ -59,6 +81,10 @@ module Marker : sig
     The latter allows for specifying transparency.
   *)
   val colors : string array -> Attribute.t list
+
+  (** Set the line properties of the line *)
+  val line : Attribute.t list list -> Attribute.t list
+
   val marker : Attribute.t list list -> t
 
   val to_json : t -> Ezjsonm.value
