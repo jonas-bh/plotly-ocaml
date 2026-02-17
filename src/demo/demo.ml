@@ -164,6 +164,18 @@ let scatter_with_hovertemplate =
       yaxis [axis_title [Title.text y_title]];
     ]
 
+let scatter_with_marker_line =
+  figure
+    [ scatter
+        [ xy [| (1.0, 1.0); (2.0, 2.0); (3.0, 4.0); (4.0, 8.0); (5.0, 16.0) |];
+          mode "markers";
+          marker [
+            Marker.color "lightblue";
+            Marker.line [MarkerLine.color "red"; MarkerLine.width 2.0];
+          ];
+        ] ]
+    [ title [Title.text "Scatter with marker line"] ]
+
 let figures =
   [ scatter_;
     scatter_markers;
@@ -180,4 +192,5 @@ let figures =
     bar_hide_legend;
     scatter_with_custom_font;
     scatter_with_hovertemplate;
+    scatter_with_marker_line;
   ]
