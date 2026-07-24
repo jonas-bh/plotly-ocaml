@@ -1,9 +1,7 @@
 (library
  (name plotly_jsoo)
- (public_name plotly.jsoo)
+ (public_name plotly-js)
  (flags :standard)
- (libraries
-  js_of_ocaml
-  js_of_ocaml-lwt
-  plotly)
- (preprocess (pps js_of_ocaml-ppx)))
+ (libraries js_of_ocaml js_of_ocaml-lwt plotly)
+ (preprocess
+  (pps js_of_ocaml-ppx)))

@@ -10,5 +10,10 @@
 
 (rule
  (alias runtest)
- (deps (source_tree references))
- (action (chdir %{workspace_root} (run ./test/test_all.exe))))
+ (package plotly-python)
+ (deps
+  (source_tree references))
+ (action
+  (chdir
+   %{workspace_root}
+   (run ./test/test_all.exe))))

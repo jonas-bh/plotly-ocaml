@@ -1,8 +1,5 @@
 (library
  (name plotly_python)
- (public_name plotly.python)
+ (public_name plotly-python)
  (flags :standard)
- (libraries
-   pyml
-   plotly
-  ))
+ (libraries pyml plotly))
