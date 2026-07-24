@@ -1,5 +1,5 @@
 (library
  (name plotly_demo)
+ (package plotly)
  (flags :standard)
- (libraries
-  plotly))
+ (libraries plotly))
